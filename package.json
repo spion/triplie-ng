@@ -1,0 +1,33 @@
+{
+  "name": "triplie-ng",
+  "version": "0.1.0",
+  "description": "Next generation of triplie IRC chat bot",
+  "main": "main.js",
+  "bin": {
+    "triplie": "main.js",
+    "triplie-feed": "main-feed.js"
+  },
+  "scripts": {
+    "test": "nodeunit tests"
+  },
+  "repository": "",
+  "keywords": [
+    "irc",
+    "chatbot",
+    "bot",
+    "ai",
+    "markov",
+    "chains"
+  ],
+  "author": "spion <gorgi.kosev@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "ircee": "~0.2.0",
+    "optimist": "~0.3.5",
+    "through": "~2.2.0",
+    "sqlite3": "~2.1.5",
+    "sql": "~0.2.1",
+    "async": "~0.2.5",
+    "split": "~0.2.1"
+  }
+}
