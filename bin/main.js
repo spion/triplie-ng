@@ -79,8 +79,9 @@ function child(irc) {
     irc.on('connect', function() {        
         function childReady(k) {
             if (child) 
-                child.send({connection: true});
-            else if (k < 10) 
+                try { return child.send({connection: true});
+                } catch (e) {}
+            if (k < 10) 
                 setTimeout(childReady.bind(null, k+1), 1000); // try again in 1s
         }
         childReady(0);

@@ -39,5 +39,7 @@ dbinit({
     learnQueue.drain =  function() {
         db.batch.end();
         db.close();
+        console.log("=");
+        console.log("done");
     };
 });

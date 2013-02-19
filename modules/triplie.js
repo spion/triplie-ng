@@ -9,21 +9,21 @@ module.exports = function(irc) {
     db(dbready);
     function dbready(err, db) {   
        irc.on('privmsg', learnOrReply);
+       function learnOrReply(e) {
+           var learn = learner(db, irc.config.learn),
+           reply = replyer(db, irc.config.reply);
+
+           if (~e.text.trim().indexOf(irc.config.info.nick)) {
+               var sendto = e.target[0] == '#' ? e.target : e.user.nick;
+               reply(e.text, function(err, response) {
+                   response = response || irc.config.default_response;
+                   if (response) 
+                       irc.send('privmsg', sendto, response);
+               });
+           }
+           learn(e.text);
+       }
     };
-    function learnOrReply(e) {
-        var learn = learner(db, irc.config.learn),
-            reply = replyer(db, irc.config.reply);
- 
-        if (e.text.trim().indexOf(irc.config.info.nick)) {
-            var sendto = e.target[0] == '#' ? e.target : e.user.nick;
-            reply(e.text, function(err, response) {
-                response = response || irc.config.default_response;
-                if (response) 
-                    irc.send('privmsg', sendto, response);
-            });
-        }
-        learn(e.text);
-    }
 
 
     irc.on('connect', function() {
