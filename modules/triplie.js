@@ -10,9 +10,8 @@ module.exports = function(irc) {
     function dbready(err, db) {   
        irc.on('privmsg', learnOrReply);
        function learnOrReply(e) {
-           var learn = learner(db, irc.config.learn),
-           reply = replyer(db, irc.config.reply);
-
+           var learn = learner(db, irc.config.ai),
+           reply = replyer(db, irc.config.ai);
            if (~e.text.trim().indexOf(irc.config.info.nick)) {
                var sendto = e.target[0] == '#' ? e.target : e.user.nick;
                reply(e.text, function(err, response) {

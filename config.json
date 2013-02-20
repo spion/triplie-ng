@@ -1,0 +1,48 @@
+{
+    "db": "triplie.db",
+    "server": "irc.freenode.net",
+    "port": 6667,
+    "modules": [
+        "triplie",
+        "admin"
+    ],
+    "channels": [
+        "#triplie-ng",
+        "#triplie"
+    ],
+    "cmdchar": ">",
+    "admins": [
+        ".+@unaffiliated/spion"
+    ],
+    "info": {
+        "nick": "triplie-ng",
+        "user": "triplie",
+        "name": "triplie, the next generation"
+    },
+    "ai": {
+        "similars": {
+            "algorithm": "porter",
+            "language": "en",
+            "percent": 30
+        },
+        "keywords": {
+            "treshold": 200,
+            "limit": 30,
+            "search": [
+                2,
+                9
+            ],
+            "range": [
+                4,
+                10
+            ]
+        },
+        "generalization": 50,
+        "creativity": 2,
+        "ngram": {
+            "length": 4
+        }
+    },
+    "_": [],
+    "$0": "/home/spion/Documents/triplie-ng/bin/main.js"
+}
