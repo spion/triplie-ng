@@ -22,6 +22,8 @@ module.exports = function(irc) {
 
 
     function saveConfig() {
+        delete irc.config['$0'];
+        delete irc.config['_'];
         irc.supervisor({save: JSON.stringify(irc.config, null, 4)});
     }
     var cmds = {};

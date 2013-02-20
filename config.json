@@ -38,11 +38,9 @@
             ]
         },
         "generalization": 50,
-        "creativity": 2,
+        "creativity": 1,
         "ngram": {
             "length": 4
         }
-    },
-    "_": [],
-    "$0": "/home/spion/Documents/triplie-ng/bin/main.js"
+    }
 }
