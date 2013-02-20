@@ -1,7 +1,7 @@
 # Changes in the learning algorithm:
 
 Triplie will learn associations from continuous blocks of texts 
-written by another user and markov chains from lines written by
+written by another user and n-grams from lines written by
 the users.
 
 Two special words will be added: the "beginning" and the "end",
@@ -12,7 +12,7 @@ to allow triplie to finish a sentence.
 
 Normally, triplie extracts keywords, expands them by querying the
 association net then uses the expanded keywords to connect through
-the markov chains.
+the n-gram.
 
 In the process, associated keywords are excited by the amount of 
 mutual information that is available.
@@ -34,7 +34,7 @@ The final data structure is a list of keywords:
     [k1, k2, k3, ... kN]
 ```
 
-## Group and expand using a stemmer
+## Expand and cluster using a stemmer
 
 Expand the initial set of keywords by finding words that have the
 same base form. The base form similarity checker can be plugged in,
@@ -43,79 +43,65 @@ comparison can be used (anything that compares two words and says
 true if the word is basically the same) or maybe a stemmer that
 always returns false.
 
-The resulting data structure is a list of words and its expansions:
+The resulting data structure is a list word clusters
 
 ```js
-[{
-    id: w
-    expansions: [w1, w2, ...]
-}, ...]
-```js
+[[id11, ...], [id21, ...] ...]
+```
 
-## Expand by associations
+## Expand by associations, group using stemmer.
 
 For every expansion find the associated keywords. 
 
-Within the expansions of a  single keyword, if multiple associations 
-with the same other keyword are found the highest strength is picked. 
-The rest are discarded.
+Lots of associations and expansions are now found
 
-The result is a list of words, each having a list of
-
-```js
-[{  id:id, 
-    expansions: [w, ...],
-    associations: {id: { from: expansion, count}, ... }
-}, ...]
-```
-
-## Calculate associations mutual information
-
-Given all associations that are found with their source word, calculate
-mutual information. Sum that mutual information for all associated ids.
-
-The end result is a list of associated words:
+The result - two sets of words - original (expanded)
+and associated, grouped (clustered) using the
+selected stemmer.
 
 ```js
-[{id, value}, ...]
+{
+    expanded:[[id11, ...], [id21, ...] ...],
+    associated: [[id11, ...], ...]
+}
 ```
 
-## Group and expand using stemmer
+## Calculate mutual information between clusters
 
-Grouping of course picks the best value found.
+Given all expanded and associated clusters, calculate
+mutual information between each expanded - associated pair.
 
-The end result is 
+Sum the mutual information grouping by each associated
+cluster.
+
+The end result is a list of associated clusters with values:
 
 ```js
-[{id, value, expansions:[]}]
+[ {words: [...], value: x}, ... ]
 ```
 
-## Expand expansions using n-gram context similarity.
+## Expand associated clusters using n-gram context similarity.
 
-Each of the expansion words from the previous phase will be expanded 
+Each of the clusters from the previous phase will be expanded 
 with an n-gram context similarity search. This is how this algorithm 
 works:
 
-1) Find all the n-grams where the word is in the middle (n=3 or n=5
-with a configurable parameter)
-2) Find all the words which can also be placed in any of those n-grams
-along with the number K of n-grams where they were found. (minimum
-K is also configurable)
+1) Find all the n-grams where a word from the cluster is in the 
+middle
 
-The end result is an expansion dictionary denoting the source of
-the new expansion. This source will be needed in the final replacement 
-phase.
+2) Find all the words which can also be placed in at least K of those 
+n-grams (K is configurable)
+
+The end result are expanded clusters with an object for each 
+alternative words that also contains the original word:
 
 ```js
-[{id, value, expansions:{ 
-    which: sourceExpansion
-}]
+[[{id: id, original: id}, ...], [...], ...]
 ```
 
-## Do multiple-BFS on the markov graph
+## Do multiple-BFS on the ngram graph
 
-Now every word in the expanded set has its own set of alternative
-replacements which can be found - while doing the markov breadth
+Every cluster now needs to be found using n-gram breadth
 first search. If any acceptable alternative is found we can continue
 with the search even though the "wrong" word was found, but we
 mark what the right word is in that position (its whatever the
@@ -124,5 +110,9 @@ value of sourceExpansion is)
 When the (configurable) minimum number of keywords is reached, the 
 algorithm is allowed to find the "startword" or the "endword".
 
+If the algorithm does not reach the minimum number of keywords
+its restarted to begin from the next available cluster.
+
 After the search is complete we go through all the marked words
-and replace them with the right ones.
+and replace them with their originals.
+
