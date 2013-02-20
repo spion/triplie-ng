@@ -9,7 +9,8 @@
     ],
     "channels": [
         "#triplie-ng",
-        "#triplie"
+        "#triplie",
+        "#lugola"
     ],
     "cmdchar": ">",
     "admins": [
@@ -27,15 +28,15 @@
             "percent": 30
         },
         "keywords": {
-            "treshold": 128,
-            "limit": 20,
+            "threshold": 200,
+            "limit": 15,
             "search": [
                 2,
-                2
+                3
             ]
         },
-        "generalization": 33,
-        "creativity": 1,
+        "generalization": 50,
+        "creativity": 65,
         "ngram": {
             "length": 4,
             "depth": 8

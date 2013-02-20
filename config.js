@@ -22,7 +22,7 @@ exports.ai = {
         percent: 30
     },
     keywords: {
-        treshold: 200,
+        threshold: 200,
         limit: 30,
         search: [2, 9]
     },
