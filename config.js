@@ -4,7 +4,7 @@ exports.db = 'triplie.db';
 exports.server = 'irc.freenode.net';
 exports.port = 6667;
 exports.modules = ['triplie', 'admin'];
-exports.channels = ['#triplie'];
+exports.channels = ['#triplie-ng'];
 
 exports.cmdchar = '>';
 

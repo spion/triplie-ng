@@ -2,3 +2,5 @@ node_modules
 log.txt
 triplie.db
 triplie.db*
+.idea
+triplie-ng.iml
