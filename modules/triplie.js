@@ -1,6 +1,6 @@
 var learner = require('../lib/learner'),
     replyer = require('../lib/replyer');
-
+ 
 module.exports = function(irc) {
     var db = irc.use(require('./db'));
 
@@ -10,14 +10,16 @@ module.exports = function(irc) {
     function dbready(err, db) {   
        irc.on('privmsg', learnOrReply);
        function learnOrReply(e) {
+           if (e.text[0] == irc.config.cmdchar) return;
            var learn = learner(db, irc.config.ai),
            reply = replyer(db, irc.config.ai);
            if (~e.text.trim().indexOf(irc.config.info.nick)) {
                var sendto = e.target[0] == '#' ? e.target : e.user.nick;
+               var prefix = sendto[0] == '#' ? e.user.nick + ', ' : '';
                reply(e.text, function(err, response) {
-                   response = response || irc.config.default_response;
+                   response =  response || irc.config.default_response;
                    if (response) 
-                       irc.send('privmsg', sendto, response);
+                       irc.send('privmsg', sendto, prefix+response);
                });
            }
            learn(e.text);

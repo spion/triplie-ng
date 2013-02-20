@@ -69,4 +69,6 @@ module.exports = function(irc) {
                  //+ " in " + JSON.stringify(c))
     }
 
+    return cmds;
+
 };

@@ -4,7 +4,8 @@
     "port": 6667,
     "modules": [
         "triplie",
-        "admin"
+        "admin",
+        "read"
     ],
     "channels": [
         "#triplie-ng",
@@ -26,21 +27,18 @@
             "percent": 30
         },
         "keywords": {
-            "treshold": 200,
-            "limit": 30,
+            "treshold": 128,
+            "limit": 20,
             "search": [
                 2,
-                9
-            ],
-            "range": [
-                4,
-                10
+                2
             ]
         },
-        "generalization": 50,
+        "generalization": 33,
         "creativity": 1,
         "ngram": {
-            "length": 4
+            "length": 4,
+            "depth": 8
         }
     }
 }

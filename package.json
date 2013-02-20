@@ -30,6 +30,8 @@
     "async": "~0.2.5",
     "split": "~0.2.1",
     "natural": "~0.1.19",
-    "async-bfs": "~0.1.1"
+    "async-bfs": "~0.1.1",
+    "request": "~2.14.0",
+    "cheerio": "~0.10.7"
   }
 }
