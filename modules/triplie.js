@@ -13,7 +13,8 @@ module.exports = function(irc) {
            if (e.text[0] == irc.config.cmdchar) return;
            var learn = learner(db, irc.config.ai),
            reply = replyer(db, irc.config.ai);
-           if (~e.text.trim().indexOf(irc.config.info.nick)) {
+
+           if (~e.text.trim().indexOf(irc.config.info.nick) || e.target[0] != '#') {
                var sendto = e.target[0] == '#' ? e.target : e.user.nick;
                var prefix = sendto[0] == '#' ? e.user.nick + ', ' : '';
                reply(e.text, function(err, response) {
@@ -22,7 +23,7 @@ module.exports = function(irc) {
                        irc.send('privmsg', sendto, prefix+response);
                });
            }
-           learn(e.text);
+           learn(e.text, Date.now());
        }
     };
 

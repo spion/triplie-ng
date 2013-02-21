@@ -8,9 +8,8 @@
         "read"
     ],
     "channels": [
-        "#triplie-ng",
         "#triplie",
-        "#lugola"
+        "##c++-social"
     ],
     "cmdchar": ">",
     "admins": [
@@ -22,6 +21,10 @@
         "name": "triplie, the next generation"
     },
     "ai": {
+        "associations": {
+            "halflife": 10,
+            "limit": 250
+        },
         "similars": {
             "algorithm": "porter",
             "language": "en",
@@ -29,17 +32,17 @@
         },
         "keywords": {
             "threshold": 200,
-            "limit": 15,
+            "limit": 30,
             "search": [
                 2,
                 3
             ]
         },
         "generalization": 50,
-        "creativity": 65,
+        "creativity": 50,
         "ngram": {
             "length": 4,
-            "depth": 8
+            "depth": 6
         }
     }
 }

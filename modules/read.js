@@ -40,6 +40,7 @@ module.exports = function(irc) {
         cfg.inBatch = true;
         var learn = learner(db, cfg); 
         admin.readall = function(e, url) {
+            var sendto = e.target[0] == '#' ? e.target : e.user.nick;
             var base;
             if (url[url.length - 1] != '/')
                 base = path.dirname(url) + '/';
