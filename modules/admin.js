@@ -32,7 +32,7 @@ module.exports = function(irc) {
         irc.supervisor({reload: true});
     };
     cmds.admin = function(m) {
-        irc.send('privmsg', m.target, 'Yes you are.');
+        irc.send('notice', m.user.nick, 'Yes you are');
     }
 
     cmds.join = function(m, chan) {
@@ -43,11 +43,12 @@ module.exports = function(irc) {
         irc.send('join', chan);
     };
     cmds.part = function(m, chan) {
+        chan = chan || m.target;
         if (~irc.config.channels.indexOf(chan)) {
             irc.config.channels.splice(irc.config.channels.indexOf(chan), 1);
             saveConfig();;
         }
-        irc.send('part', chan || m.target);
+        irc.send('part', chan);
     };  
 
     cmds.get = function(m, jpath) {
@@ -55,7 +56,7 @@ module.exports = function(irc) {
         var c = irc.config;
         while (c && path.length) 
             c = c[path.shift()];
-        irc.send('privmsg', m.target, JSON.stringify(c));
+        irc.send('notice', m.user.nick, JSON.stringify(c));
     };
     cmds.set = function(m, jpath, val) {
         path = jpath.split(/[\[\]\.]+/g);
@@ -65,7 +66,7 @@ module.exports = function(irc) {
         var last = path.shift();
         c[last] = JSON.parse(val);
         saveConfig();
-        irc.send('privmsg', m.target, last + ' = ' + JSON.stringify(c[last]));      
+        irc.send('notice', m.user.nick, last + ' = ' + JSON.stringify(c[last]));      
                  //+ " in " + JSON.stringify(c))
     }
 

@@ -11,7 +11,7 @@ function readArticle(url, learn, db, done) {
     request(url, function(err, r, body) {
         if (err) return irc.send('privmsg', sendto, 'error:' + err.toString());
         var $ = cheerio.load(body.toLowerCase());
-        var material = $('p,font').map(function() {
+        var material = $('p,font,td').map(function() {
             return this.text() 
         }).reduce(function(acc, t) { 
             return acc.concat(t.split('. ')); 

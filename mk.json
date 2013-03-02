@@ -1,5 +1,5 @@
 {
-    "db": "triplie.db",
+    "db": "triplie-mk.db",
     "server": "irc.freenode.net",
     "port": 6667,
     "modules": [
@@ -8,16 +8,15 @@
         "read"
     ],
     "channels": [
-        "#triplie",
-        "##c++-social",
-        "#triplie-ng"
+        "#lugola",
+        "#triplie-mk"
     ],
     "cmdchar": ">",
     "admins": [
         ".+@unaffiliated/spion"
     ],
     "info": {
-        "nick": "triplie-ng",
+        "nick": "triplie-mk",
         "user": "triplie",
         "name": "triplie, the next generation"
     },
@@ -27,8 +26,8 @@
             "limit": 250
         },
         "similars": {
-            "algorithm": "porter",
-            "language": "en",
+            "algorithm": "none",
+            "language": "ru",
             "percent": 30
         },
         "keywords": {
@@ -36,14 +35,15 @@
             "limit": 30,
             "search": [
                 2,
-                3
+                5
             ]
         },
         "generalization": 50,
-        "creativity": 75,
+        "creativity": 50,
         "ngram": {
             "length": 4,
             "depth": 10
-        }
+        },
+        "halflife": 15
     }
 }
