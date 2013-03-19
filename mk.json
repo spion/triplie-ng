@@ -32,11 +32,7 @@
         },
         "keywords": {
             "threshold": 200,
-            "limit": 30,
-            "search": [
-                2,
-                5
-            ]
+            "limit": 30
         },
         "generalization": 50,
         "creativity": 50,
@@ -44,6 +40,14 @@
             "length": 4,
             "depth": 10
         },
-        "halflife": 15
+        "halflife": 15,
+        "answer": {
+            "minwords": 9,
+            "minkeys": 2
+        },
+        "partake": {
+            "probability": 0,
+            "traffic": 5
+        }
     }
 }

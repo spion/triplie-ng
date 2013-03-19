@@ -1,14 +1,20 @@
 var learner = require('../lib/learner'),
-replyer = require('../lib/replyer');
+    replyer = require('../lib/replyer');
+    Partake = require('../lib/partake'),
+    aiopts  = require('../lib/pipeline/options.js');
 
 module.exports = function(irc) {
     var db = irc.use(require('./db'));
 
     var learn, reply;
 
+    
+    var partake = Partake();
+
     db(dbready);
     function dbready(err, db) {   
         irc.on('privmsg', learnOrReply);
+        
         function learnOrReply(e) {
             if (e.text[0] == irc.config.cmdchar) return;
             var learn = learner(db, irc.config.ai);
@@ -17,24 +23,43 @@ module.exports = function(irc) {
                 text = text
                     .replace(irc.config.info.nick,'')
                     .replace(/^[,:\s]+/,'');
- 
-            if (~e.text.trim().indexOf(irc.config.info.nick) || e.target[0] != '#') {
-                console.log(e.user.nick, e.text);
-                var reply = replyer(db, irc.config.ai);
-                var sendto = e.target[0] == '#' ? e.target : e.user.nick;
-                var prefix = sendto[0] == '#' ? e.user.nick + ', ' : '';
-                reply(text, function(err, response) {
-                    response =  response || irc.config.default_response;
-                    if (response) {
-                        if (response.match(/^.ACTION\s+/))
-                            irc.send('privmsg', sendto, response);
-                        else 
-                            irc.send('privmsg', sendto, prefix + response);
-                        console.log(sendto, prefix + response)
-                    }
-                });
-            }
-            learn(text, Date.now());
+
+            var aiconf = aiopts.defaults(irc.config.ai);
+            
+            var shouldPartake =  e.target[0] == '#' &&
+                    partake.decide(e.target, aiconf.partake.probability, 
+                    aiconf.partake.traffic);
+
+            var replyToMsg = 
+                e.target[0] != '#' || shouldPartake ||
+                ~e.text.trim().indexOf(irc.config.info.nick);
+
+            if (!replyToMsg) 
+                return learn(text, Date.now());
+
+            var timeout = 1;
+            if (aiconf.sleep) 
+                timeout = (aiconf.sleep[0] 
+                          + Math.random() * (aiconf.sleep[1] - aiconf.sleep[0])) 
+                        * 1000;
+
+            console.log("Timeout", timeout);
+
+            console.log(e.user.nick, e.text);
+            var reply = replyer(db, irc.config.ai);
+            var sendto = e.target[0] == '#' ? e.target : e.user.nick;
+            var prefix = sendto[0] == '#' ? e.user.nick + ', ' : '';              
+            setTimeout(reply.bind(reply, text, function(err, response) {
+                response =  response || irc.config.default_response;
+                if (response) {
+                    if (response.match(/^.action\s+/))
+                        irc.send('privmsg', sendto, response);
+                    else 
+                        irc.send('privmsg', sendto, prefix + response);
+                    console.log(sendto, prefix + response)
+                }
+                learn(text, Date.now());
+            }), timeout);
         }
     };
 

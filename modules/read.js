@@ -66,7 +66,7 @@ module.exports = function(irc) {
                 async.series(reads, function(err, materials) {
                     if (err) return irc.send('privmsg', sendto, 'error:' + err.toString());
                     var lines = [].concat.apply([], materials).length;
-                    irc.send('privmsg', sendto, 'Done, read ' + material.length + ' lines.');
+                    irc.send('privmsg', sendto, 'Done, read ' + lines + ' lines.');
 
                 });
             });

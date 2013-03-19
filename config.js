@@ -15,21 +15,6 @@ exports.info = {
     name: 'triplie, the next generation'
 };
 
-exports.ai = {
-    similars: {
-        algorithm:'porter',
-        language:'en',
-        percent: 30
-    },
-    keywords: {
-        threshold: 200,
-        limit: 30,
-        search: [2, 9]
-    },
-    generalization: 50,
-    creativity: 1,
-    ngram: {
-        length: 4,
-    }
-};
+// AI options are defined in lib/pipeline/options
+exports.ai = { };
 

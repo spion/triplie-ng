@@ -44,6 +44,18 @@
         "ngram": {
             "length": 4,
             "depth": 10
+        },
+        "sleep": [
+            5,
+            20
+        ],
+        "answer": {
+            "minwords": 9,
+            "minkeys": 2
+        },
+        "partake": {
+            "probability": 0,
+            "traffic": 1
         }
     }
 }
