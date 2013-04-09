@@ -10,6 +10,7 @@ From the [original triplie](http://github.com/spion/triplie):
 * implement ignores
 * create associations from complete monologue sections
 * implement named regex for imports via [xregexp](https://npmjs.org/package/xregexp) with person and timestamp
+* recognize and strip nicknames from the start of the line (along with `,:` if present)
 
 Write a makefile that
 
