@@ -6,9 +6,13 @@ Next generation of triplie irc chatbot AI
 
 From the [original triplie](http://github.com/spion/triplie):
 
-* implement sleep, parttake, and speak
+* implement ~~sleep~~, ~~parttake~~, and speak
 * implement ignores
-* create associations from complete monologue sections
+* create associations from complete monologue sections (or maybe don't)
+* write to log.txt like the old triplie
+
+Additional
+
 * implement named regex for imports via [xregexp](https://npmjs.org/package/xregexp) with person and timestamp
 * recognize and strip nicknames from the start of the line (along with `,:` if present)
 
