@@ -46,8 +46,8 @@
             "depth": 10
         },
         "sleep": [
-            5,
-            20
+            2,
+            5
         ],
         "answer": {
             "minwords": 9,
