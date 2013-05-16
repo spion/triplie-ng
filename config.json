@@ -9,7 +9,6 @@
     ],
     "channels": [
         "#triplie",
-        "##c++-social",
         "#triplie-ng"
     ],
     "cmdchar": ">",
@@ -33,11 +32,7 @@
         },
         "keywords": {
             "threshold": 200,
-            "limit": 30,
-            "search": [
-                2,
-                3
-            ]
+            "limit": 30
         },
         "generalization": 50,
         "creativity": 75,

@@ -3,10 +3,27 @@
 var dbinit = require('../lib/db'),
     args = require('optimist').argv,
     split = require('split'),
-    learner = require('../lib/learner');
+    learner = require('../lib/learner'),
+    XRegExp = require('xregexp').XRegExp,
+    loadConfig = require('../lib/load-config'),
+    async = require('async');
 
-function onError() {
+function createTimestamp(spec, defaults) {
+    if (spec.timestampms) 
+        return spec.timestampms;
+    else if (spec.timestamp)
+        return spec.timestamp;
+    spec.year = spec.year || defaults.getYear();
+    spec.month = spec.month || defaults.getMonth() + 1;
+    spec.day = spec.day  || defaults.getDay();
+    spec.hour = spec.hour || defauls.getHours();
+    spec.minute = spec.minute || defaults.getMinutes();
+    spec.second = spec.second || defaults.getSeconds();
+    return new Date(spec.year, spec.month - 1, spec.day, spec.hour, spec.minute, spec.second).getTime();
 }
+
+
+var config = loadConfig(args);
 
 dbinit({
     mode: 'feed',
@@ -16,13 +33,12 @@ dbinit({
     var lines = 0;
 
     var learn = learner(db, {inBatch: true});
-    var reg = new RegExp(args._);
     db.batch.begin();
 
     var past = Date.now() - 30 * 24 * 3600 * 1000; // 30 days
     var last = Date.now();
     var learnQueue = async.queue(function(l, cb) {
-        learn(l, past + lines * 5000, function(err) {
+        learn(l.text, l.timestamp || (past + lines * 5000), function(err) {
             if (++lines % 20 === 0)
                 process.stdout.write('+');
             if (lines % 100 === 0)
@@ -37,15 +53,24 @@ dbinit({
     }, 1);
 
     var firstLine = true;
+    var today = new Date();
+    var reg = new XRegExp(args.regex); 
     process.stdin.pipe(split()).on('data', function(line) {
-        var m = line.match(reg);
-        if (firstLine) { console.log('First line is', m && m[1]); firstLine = false; }
-        if (m) learnQueue.push(m[1]);
+        var m = XRegExp.exec(line, reg);
+        var ts = null;
+        if (m.year || m.month || m.day || m.hour || m.minute || m.second)
+            ts = createTimestamp(m, today);
+        if (firstLine) { 
+            console.log('First line is', m && m.text); 
+            console.log('Happening at', new Date(ts));
+            firstLine = false; 
+        }
+        if (m) learnQueue.push({text: m.text, timestamp: ts});
     });
 
     learnQueue.drain =  function() {
         db.batch.end();
-        db.close(onError);
+        db.close(function() {});
         console.log("=");
         console.log("done");
     };

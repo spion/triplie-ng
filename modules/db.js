@@ -6,7 +6,8 @@ module.exports = function(irc) {
     var dbready = new EventEmitter(),
         db = null;
     dbinit({
-        name: irc.config.db
+        name: irc.config.db,
+        configFile: irc.config.__file
     }, function(err, d) {
         if (err) 
             return dbready.emit('ready', err);

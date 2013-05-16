@@ -1,11 +1,10 @@
 {
   "name": "triplie-ng",
   "version": "0.1.0",
-  "description": "Next generation of triplie IRC chat bot",
+  "description": "An IRC conversation simulator (chatbot) utilising Markov chains, Hebbian networks and information theory",
   "main": "main.js",
   "bin": {
-    "triplie": "main.js",
-    "triplie-feed": "main-feed.js"
+    "triplie": "bin/main.js",
   },
   "scripts": {
     "test": "nodeunit tests"
@@ -27,11 +26,12 @@
     "through": "~2.2.0",
     "sqlite3": "~2.1.5",
     "sql": "~0.2.1",
-    "async": "~0.2.5",
+    "async": "~0.2.8",
     "split": "~0.2.1",
     "natural": "~0.1.19",
     "async-bfs": "~0.1.1",
     "request": "~2.14.0",
-    "cheerio": "~0.10.7"
+    "cheerio": "~0.10.7",
+    "xregexp": "~2.0.0"
   }
 }
