@@ -158,10 +158,8 @@ The ones that you will probably want to change are highlighted
       too big values will result in low keyword density - the number of words
       between two keywords can go up to `depth`
   
-  * sleep - array of two numbers `[n1, n2]` e.g. `[3, 5]`
-
-    Causes the bot to sleep between n1 and n2 seconds before answering. Makes
-    it look more human.
+  * sleep - array of two numbers `[n1, n2]` e.g. `[3, 5]`. Causes the bot to sleep 
+    between n1 and n2 seconds before answering. Makes it look more human.
 
   * answer - controls answer length
 
