@@ -195,10 +195,8 @@ Currently, supported named captures are:
 * hour 
 * minute
 * second
-
 * timestamp - unix timestamp in seconds, can be used instead of the date captures
 * timestampms - unix timestamp in miliseconds, can be used instead of both above.
-
 * text - the text content
 
 All captures except text are optional.
@@ -216,8 +214,8 @@ List of triplie's commands:
 
 4. !set path value - set a config setting to the specified value. Examples
     
-       >set ai.sleep.1 10 - Set the upper sleep limit to 10 seconds
-       >set ai.sleep [2,3] - Set both sleep limits. The value must not contain spaces.
+       !set ai.sleep.1 10 - Set the upper sleep limit to 10 seconds
+       !set ai.sleep [2,3] - Set both sleep limits. The value must not contain spaces.
 
 5. !get path - get the config value at the specified path
 
