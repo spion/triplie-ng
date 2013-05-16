@@ -138,7 +138,6 @@ The ones that you will probably want to change are highlighted
     to pick less typical topics. Best left at 50
 
   * creativity - number between 1-100. Controls creative use of language. 
-    
     If increased to 100, triplie will often use words in contexts where they
     were never used before. When reduced, triplie will be more cautious when
     recognizing patterns. Setting it to 0 will cause triplie to never recognize 

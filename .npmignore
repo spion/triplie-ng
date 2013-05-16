@@ -1,2 +1,3 @@
-*.db
-mk.json
+.gitignore
+.idea
+triplie-ng.iml

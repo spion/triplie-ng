@@ -1,15 +1,36 @@
 {
   "name": "triplie-ng",
   "version": "0.1.0",
-  "description": "An IRC conversation simulator (chatbot) utilising Markov chains, Hebbian networks and information theory",
-  "main": "main.js",
+  "description": "An IRC conversation simulator (chatbot) utilising Markov chains, Hebbian networks and information theory.",
+  "main": "bin/main.js",
   "bin": {
-    "triplie": "bin/main.js",
+    "triplie-ng": "bot.js"
   },
+  "directories": {
+    "doc": "doc"
+  },
+  "dependencies": {
+    "async": "~0.2.8",
+    "async-bfs": "~0.1.4",
+    "cheerio": "~0.10.8",
+    "ircee": "~0.2.0",
+    "natural": "~0.1.21",
+    "optimist": "~0.3.7",
+    "request": "~2.14.0",
+    "split": "~0.2.5",
+    "sql": "~0.2.4",
+    "sqlite3": "~2.1.7",
+    "through": "~2.2.7",
+    "xregexp": "~2.0.0"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "nodeunit tests"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/spion/triplie-ng.git"
+  },
   "keywords": [
     "irc",
     "chatbot",
@@ -20,18 +41,6 @@
   ],
   "author": "spion <gorgi.kosev@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "ircee": "~0.2.0",
-    "optimist": "~0.3.5",
-    "through": "~2.2.0",
-    "sqlite3": "~2.1.5",
-    "sql": "~0.2.1",
-    "async": "~0.2.8",
-    "split": "~0.2.1",
-    "natural": "~0.1.19",
-    "async-bfs": "~0.1.1",
-    "request": "~2.14.0",
-    "cheerio": "~0.10.7",
-    "xregexp": "~2.0.0"
-  }
+  "readmeFilename": "README.md",
+  "gitHead": "3eb32dad284b7432981863d846e2d16023c379e5"
 }
