@@ -188,7 +188,11 @@ using a regular expression then feed the database.
 
 Example:
 
-    cat log.txt | triplie config.json --feed --regex '(?<year>\d+)-(?<month>\d+)-(?<day>)T(?<hour>\d+):(?<minute>\d+):(?<second>\d+) (?<nick>): \s+ (?<text>) \s+'
+    cat log.txt | triplie config.json --feed --regex '(?<year>\d+)-(?<month>\d+)-(?<day>)T(?<hour>\d+):(?<minute>\d+):(?<second>\d+)Z \s+ (?<nick>.+): \s+ (?<text>.+) \s+'
+
+will work for a `log.txt` that has lines in the format:
+    
+    2013-04-04T13:15:00Z someuser: I wrote some text
 
 The syntax is XRegExp and uses named groups. See [the XRegExp readme](https://npmjs.org/package/xregexp) for more info
 
@@ -204,12 +208,23 @@ Currently, supported named captures are:
 * timestampms - unix timestamp in miliseconds, can be used instead of both above.
 * text - the text content
 
-All captures except text are optional.
+Timestamp example:
+
+    cat log.txt | triplie config.json --feed --regex '(?<timestamp>\d+) (?<text>.+)
+
+will match `log.txt` containing lines in the format:
+
+    1234567890 example text here 
+
+All captures except text are optional - the time is optional and if left out
+the feeder will generate reasonable "fake" timestamps.
+
+    cat log.txt | triplie config.json --feed --regex '(?<text>.+)'
 
 
 # COMMANDS
 
-List of triplie's commands:
+List of triplie's commands (assuming "!" is the cmdchar)
 
 1. !join #channel - causes the bot to join and remember the channel
 
@@ -226,7 +241,9 @@ List of triplie's commands:
 
 6. !db stats - triplie will output database statistics
 
-TODO: !cmd set the option silently. !!cmd confirm the command 
+!cmd will return results via private notice 
+
+!!cmd returns results via public message
 
 # LICENCE & AUTHOR
 

@@ -1,6 +1,8 @@
 var fs = require('fs');
 
 module.exports = function(irc) {
+    var db = irc.use(require('./db'));
+    
     var admins = irc.config.admins || [];
 
     var isAdmin = exports.isAdmin = function isAdmin(address) {
@@ -11,12 +13,26 @@ module.exports = function(irc) {
     };
     
     var cmdchar = irc.config.chmdchar || '>'
+
     irc.on('privmsg', function(m) {
         if (m.text.length && m.text[0] == cmdchar && isAdmin(m.source)) {
-            var which = m.text.substr(1).split(' ');
+            var responder = {};
+
+            var nochar = m.text.substr(1), which;
+            if (nochar[0] != cmdchar) {
+                which = nochar.split(' ');
+                responder.respond = irc.send.bind(irc, 'notice', m.user.nick);
+            }
+            else {
+                which = nochar.substr(1).split(' ');
+                var sendto = m.target[0] == '#' ? m.target : m.user.nick;
+                responder.respond = irc.send.bind(irc, 'privmsg', sendto);
+            }
             var args = which.slice(1);
             args.unshift(m);
-            cmds[which[0]].apply(cmds, args);
+            
+
+            cmds[which[0]].apply(responder, args);
         }
     });
 
@@ -51,12 +67,26 @@ module.exports = function(irc) {
         irc.send('part', chan);
     };  
 
+    cmds.db = function(m, subcmd) {
+        var self = this;
+        var subcmds = {
+            stats: function(m) {
+                db(function(err, db) {
+                    db.stats(function(err, stats) {
+                        self.respond(JSON.stringify(stats));
+                    });
+                });
+            }
+        };
+        if (subcmds[subcmd]) subcmds[subcmd](m);
+    }
+
     cmds.get = function(m, jpath) {
         path = jpath.split(/[\[\]\.]+/g);
         var c = irc.config;
         while (c && path.length) 
             c = c[path.shift()];
-        irc.send('notice', m.user.nick, JSON.stringify(c));
+        this.respond(JSON.stringify(c));
     };
     cmds.set = function(m, jpath, val) {
         path = jpath.split(/[\[\]\.]+/g);
@@ -66,7 +96,7 @@ module.exports = function(irc) {
         var last = path.shift();
         c[last] = JSON.parse(val);
         saveConfig();
-        irc.send('notice', m.user.nick, last + ' = ' + JSON.stringify(c[last]));      
+        this.respond(last + ' = ' + JSON.stringify(c[last]));      
                  //+ " in " + JSON.stringify(c))
     }
 

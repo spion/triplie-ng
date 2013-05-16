@@ -1,6 +1,6 @@
 {
   "name": "triplie-ng",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An IRC conversation simulator (chatbot) utilising Markov chains, Hebbian networks and information theory.",
   "main": "bin/main.js",
   "bin": {
