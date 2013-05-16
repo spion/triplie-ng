@@ -42,7 +42,7 @@ Configure the bot as explained below before running!
 If running the bot for the first time and its not configured,
 you should create a new directory and run:
 
-   triplie config.json --init
+    triplie config.json --init
 
 to create the initial config file
 
