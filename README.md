@@ -175,6 +175,11 @@ The ones that you will probably want to change are highlighted
     * traffic - the highest amount of total channel messages during the past 
       minute that allow an unsolicited reply. 0 is no limit.
 
+# RUNNING
+
+After you edited the config file, to run the bot use the command:
+
+    triplie config.json
 
 # IMPORT EXISTING TEXT
 
