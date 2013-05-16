@@ -143,7 +143,7 @@ The ones that you will probably want to change are highlighted
     were never used before. When reduced, triplie will be more cautious when
     recognizing patterns. Setting it to 0 will cause triplie to never recognize 
     patterns of word usage.
-
+    
     For example, if triplie notices that the words "dog" and "cat" are used
     in "many" common n-grams it may use the n-grams of "dog" in addition to the
     n-grams of "cat" when forming a sentence that needs to contain the keyword "cat"
