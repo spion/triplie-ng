@@ -249,5 +249,5 @@ List of triplie's commands (assuming "!" is the cmdchar)
 
 See LICENCE and AUTHORS (if present)
 
-Thank you for downloading it! Have fun!
-spion, FreeNode@#triplie
+![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/spion/triplie-ng/trend.png)
+
