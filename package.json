@@ -1,10 +1,10 @@
 {
-  "name": "triplie-ng",
+  "name": "triplie",
   "version": "0.1.1",
   "description": "An IRC conversation simulator (chatbot) utilising Markov chains, Hebbian networks and information theory.",
   "main": "bin/main.js",
   "bin": {
-    "triplie-ng": "bot.js"
+    "triplie": "bin/main.js"
   },
   "directories": {
     "doc": "doc"
@@ -42,5 +42,4 @@
   "author": "spion <gorgi.kosev@gmail.com>",
   "license": "MIT",
   "readmeFilename": "README.md",
-  "gitHead": "3eb32dad284b7432981863d846e2d16023c379e5"
 }
