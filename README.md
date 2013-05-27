@@ -191,7 +191,7 @@ using a regular expression then feed the database.
 
 Example:
 
-    cat log.txt | triplie config.json --feed --regex '(?<year>\d+)-(?<month>\d+)-(?<day>)T(?<hour>\d+):(?<minute>\d+):(?<second>\d+)Z \s+ (?<nick>.+): \s+ (?<text>.+) \s+'
+    cat log.txt | triplie config.json --feed --regex '(?<year>\d+)-(?<month>\d+)-(?<day>)T(?<hour>\d+):(?<minute>\d+):(?<second>\d+)Z\s+(?<nick>.+):\s+(?<text>.+)'
 
 will work for a `log.txt` that has lines in the format:
     
