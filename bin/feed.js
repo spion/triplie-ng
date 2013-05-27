@@ -12,7 +12,7 @@ function createTimestamp(spec, defaults) {
     if (spec.timestampms) 
         return spec.timestampms;
     else if (spec.timestamp)
-        return spec.timestamp;
+        return spec.timestamp * 1000;
     spec.year = spec.year || defaults.getYear();
     spec.month = spec.month || defaults.getMonth() + 1;
     spec.day = spec.day  || defaults.getDay();
@@ -58,7 +58,9 @@ dbinit({
     process.stdin.pipe(split()).on('data', function(line) {
         var m = XRegExp.exec(line, reg);
         var ts = null;
-        if (m.year || m.month || m.day || m.hour || m.minute || m.second)
+        if (!m) return;
+        if (m.year || m.month || m.day || m.hour || m.minute 
+            || m.second || m.timestamp || m.timestampms)
             ts = createTimestamp(m, today);
         if (firstLine) { 
             console.log('First line is', m && m.text); 
