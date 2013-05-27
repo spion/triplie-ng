@@ -32,7 +32,7 @@ module.exports = function(irc) {
 
             var replyToMsg = 
                 e.target[0] != '#' || shouldPartake ||
-                ~e.text.trim().indexOf(irc.config.info.nick);
+                ~e.text.trim().toLowerCase().indexOf(irc.config.info.nick.toLowerCase());
 
             if (!replyToMsg) 
                 return learn(text, Date.now());
