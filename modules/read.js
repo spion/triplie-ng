@@ -2,7 +2,8 @@ var learner = require('../lib/learner'),
     replyer = require('../lib/replyer'),
     request = require('request'),
     cheerio = require('cheerio'),
-    path = require('path');
+    async = require('async'),
+    path = require('path'),
     URL  = require('url');
 
 
