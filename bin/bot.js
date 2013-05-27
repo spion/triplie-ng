@@ -31,7 +31,13 @@ function connection(config) {
     var pings = 0;
     function connect() {
         pings = 0;
-        var socket = net.connect(config.port, config.server);
+        var connectOpts = {
+            port: config.port, 
+            host: config.server,            
+        };
+        if (config.vhost)
+            connectOpts.localAddress = config.vhost;
+        var socket = net.connect(connectOpts);                                 
         socket.pipe(instream, {end: false});
         outstream.pipe(socket, {end: false});
         socket.pipe(irc, {end: false}).pipe(socket);

@@ -59,7 +59,10 @@ The ones that you will probably want to change are highlighted
   lost if triplie is shut down or crashes
   
 * **server** - IP or hostname of the IRC server, e.g. `"server":"irc.freenode.net"`
+
 * port - port of the IRC server, e.g. `"port":6667`
+
+* vhost - triplie will bind to this vhost / ip address. If `null`, use the default.
 
 * modules - a list of modules to load. Its recommended to keep it intact.
   * "triplie" - the core module, don't remove it
