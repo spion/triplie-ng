@@ -30,9 +30,11 @@ module.exports = function(irc) {
                     partake.decide(e.target, aiconf.partake.probability, 
                     aiconf.partake.traffic);
 
-            var replyToMsg = 
-                e.target[0] != '#' || shouldPartake ||
-                ~e.text.trim().toLowerCase().indexOf(irc.config.info.nick.toLowerCase());
+            var wasAddressed = ~e.text.trim().toLowerCase().indexOf(irc.config.info.nick.toLowerCase()),
+                onChannel = e.target[0] == '#'
+            
+            var replyToMsg = !onChannel || shouldPartake || wasAddressed;
+
 
             if (!replyToMsg) 
                 return learn(text, Date.now());
@@ -47,8 +49,9 @@ module.exports = function(irc) {
 
             console.log(e.user.nick, e.text);
             var reply = replyer(db, irc.config.ai);
-            var sendto = e.target[0] == '#' ? e.target : e.user.nick;
-            var prefix = sendto[0] == '#' ? e.user.nick + ', ' : '';              
+            var sendto = onChannel ? e.target : e.user.nick;
+            var prefix = wasAddressed && onChannel ? e.user.nick + ', ' : '';
+
             setTimeout(reply.bind(reply, text, function(err, response) {
                 response =  response || irc.config.default_response;
                 if (response) {
