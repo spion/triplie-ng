@@ -42,55 +42,59 @@ Configure the bot as explained below before running!
 If running the bot for the first time and its not configured,
 you should create a new directory and run:
 
-    triplie config.json --init
+    triplie config.yaml --init
 
 to create the initial config file
 
-### Edit config.json
+### Edit config.yaml
 
-config.json is already pre-filled with some default for your bot. 
+config.yaml is already pre-filled with some default for your bot. 
 However, you will probably want to change some of these settings.
 
 The ones that you will probably want to change are highlighted
 
-* db - Path to the database file relative to the config file, e.g. `"db":"triplie.db". 
+* db - Path to the database file relative to the config file, e.g. 
+  `db: triplie.db`. 
   
-  You can also specify `"db":":memory:"` to use an in-RAM database, but the data will be 
-  lost if triplie is shut down or crashes
+  You can also specify `db: ":memory:"` to use an in-RAM database, but the 
+  data will be lost if triplie is shut down or crashes
   
-* **server** - IP or hostname of the IRC server, e.g. `"server":"irc.freenode.net"`
+* **server** - IP or hostname of the IRC server, e.g. 
+  `server: irc.freenode.net`
 
-* port - port of the IRC server, e.g. `"port":6667`
+* port - port of the IRC server, e.g. `port: 6667`
 
-* vhost - triplie will bind to this vhost / ip address. If `null`, use the default.
+* vhost - triplie will bind to this vhost / ip address. If `null`, use the 
+  default.
 
 * modules - a list of modules to load. Its recommended to keep it intact.
-  * "triplie" - the core module, don't remove it
-  * "admin" - administrator commands - reload, join, part
-  * "read" - commands to read all text on a link
+  * triplie - the core module, don't remove it
+  * admin - administrator commands - reload, join, part
+  * read - commands to read all text on a link
 
-* **channels** - a list of channels to join. Example: `"channels":["#first", "#second"]`
+* **channels** - a list of channels to join. Example: 
+  `channels: ["#first", "#second"]`
+
 * cmdchar - prefix character for the commands
 
-* **admins** - list of regular expressions to determine admins from their nick!user@host
-  string.
+* **admins** - list of regular expressions to determine admins from their 
+  nick!user@host string.
 
   Choose your admin hosts carefully. On Undernet I recommend using 
 
-      [".+@youruser.users.undernet.org"]
+      ".+@youruser.users.undernet.org"
     
   for better security. On freenode the unaffiliated/affiliated hostmasks are a
   good choice. At the end it should look something like this:
 
-      [
-        ".+@myxuser.users.undernet.org",
-        ".+@unaffiliated/adminnickname",
-        ".+myident@myvhost.myisp.com"
-      ]
+      - ".+@myxuser.users.undernet.org",
+      - ".+@unaffiliated/adminnickname",
+      - ".+myident@myvhost.myisp.com"
 
 * **info** - personal info of the bot
   * **nick** - IRC nickname
-  * user - IRC (machine) username to show (if identd is not installed on your machine)
+  * user - IRC (machine) username to show (if identd is not installed on your 
+    machine)
   * name - IRC name
 
 * ai - contains AI configuration options
@@ -99,26 +103,28 @@ The ones that you will probably want to change are highlighted
 
     * halflife (time in days)
 
-      The association will lose half of its value `halflife` days after it is last 
-      encountered in a sentence. Making this value lower will make the bot focus
-      on recent events, while making it longer will cause it to recall older things
-      more frequently
+      The association will lose half of its value `halflife` days after it is 
+      last encountered in a sentence. Making this value lower will make the bot
+      focus on recent events, while making it longer will cause it to recall 
+      older things more frequently
 
-    * limit (number) - Only take the best N associations for every sentence. Making
-      this value larger will cause the bot to explore broader context, while mamking
-      it smaller will cause it to be more focused.
+    * limit (number) - Only take the best N associations for every sentence. 
+      Making this value larger will cause the bot to explore broader context, 
+      while mamking it smaller will cause it to be more focused.
 
   * similars - how the AI determines similar words
 
     * algorithm - One of `"porter"`, `"levenshtein"` or `"none"`
 
-      What algorithm to use to determine similar words. The `"porter"` stemmer is 
-      recommended for English. Don't use `"levenshtein"` as its presently extremely 
-      slow - for unsupported languages its better to use `"none"`
+      What algorithm to use to determine similar words. The `"porter"` stemmer
+      is recommended for English. Don't use `"levenshtein"` as its presently 
+      extremely slow - for unsupported languages its better to use `"none"`
  
-    * **language** - Stemmer language, one of `"en"` (english), `"ru"` (russian) or `"es"` (spanish)
+    * **language** - Stemmer language, one of `"en"` (english), `"ru"` 
+      (russian) or `"es"` (spanish)
 
-    * percent (number) - Maximum percentage difference for the levenshtein algorithm.
+    * percent (number) - Maximum percentage difference for the levenshtein 
+      algorithm.
 
   * keywords - control how keywords are picked
 
@@ -130,24 +136,25 @@ The ones that you will probably want to change are highlighted
 
     * limit (number)
 
-      Consider at most this many associated keywords when trying to form the reply.
-      The best associated keywords are picked. Increasing this too much will cause 
-      triplie to say more irrelevant things, decreasing it too much will cause it 
-      to only say obvious things (at least in theory)
+      Consider at most this many associated keywords when trying to form the 
+      reply. The best associated keywords are picked. Increasing this too much
+      will cause triplie to say more irrelevant things, decreasing it too much
+      will cause it to only say obvious things (at least in theory)
 
   * generalization - number between 1-100. Controls triplie's tendency for 
     generalization. In theory, making this number closer to 100 will cause 
-    triplie to pick more general, typical topics while lowering it will cause it 
-    to pick less typical topics. Best left at 50
+    triplie to pick more general, typical topics while lowering it will cause 
+    it to pick less typical topics. Best left at 50
 
   * creativity - number between 1-100. Controls creative use of language. 
     If increased to 100, triplie will often use words in contexts where they
     were never used before. When reduced, triplie will be more cautious when
-    recognizing patterns. Setting it to 0 will cause triplie to never recognize 
-    patterns of word usage. For example, if triplie notices that the words "dog" 
-    and "cat" are used in "many" common n-grams it may use the n-grams of "dog" in 
-    addition to the n-grams of "cat" when forming a sentence that needs to contain 
-    the keyword "cat" `creativity` determines how many is "many"
+    recognizing patterns. Setting it to 0 will cause triplie to never recognize
+    patterns of word usage. For example, if triplie notices that the words 
+    "dog" and "cat" are used in "many" common n-grams it may use the n-grams of
+    "dog" in addition to the n-grams of "cat" when forming a sentence that 
+    needs to contain the keyword "cat" `creativity` determines how many is 
+    "many"
 
   * n-gram - controls markov chains engine
 
@@ -161,8 +168,8 @@ The ones that you will probably want to change are highlighted
       too big values will result in low keyword density - the number of words
       between two keywords can go up to `depth`
   
-  * sleep - array of two numbers `[n1, n2]` e.g. `[3, 5]`. Causes the bot to sleep 
-    between n1 and n2 seconds before answering. Makes it look more human.
+  * sleep - array of two numbers `[n1, n2]` e.g. `[3, 5]`. Causes the bot to 
+    sleep between n1 and n2 seconds before answering. Makes it look more human.
 
   * answer - controls answer length
 
@@ -170,7 +177,7 @@ The ones that you will probably want to change are highlighted
 
     * minkeys - minimum number of keywords in the formed sentence.
 
-  * partake - control unsolicited reply (reply to channel message even when bot 
+  * partake - control unsolicited reply (reply to channel message even when bot
     nickname is not in the message). 
 
     * probabiliy - 0 to 100. 0 is no replies. 
@@ -182,22 +189,23 @@ The ones that you will probably want to change are highlighted
 
 After you edited the config file, to run the bot use the command:
 
-    triplie config.json
+    triplie config.yaml
 
 # IMPORT EXISTING TEXT
 
-If called with the argument `--feed` triplie will receive data from stdin, parse it
-using a regular expression then feed the database.
+If called with the argument `--feed` triplie will receive data from stdin, 
+parse it using a regular expression then feed the database.
 
 Example:
 
-    cat log.txt | triplie config.json --feed --regex '(?<year>\d+)-(?<month>\d+)-(?<day>)T(?<hour>\d+):(?<minute>\d+):(?<second>\d+)Z\s+(?<nick>.+):\s+(?<text>.+)'
+    cat log.txt | triplie config.yaml --feed --regex '(?<year>\d+)-(?<month>\d+)-(?<day>)T(?<hour>\d+):(?<minute>\d+):(?<second>\d+)Z\s+(?<nick>.+):\s+(?<text>.+)'
 
 will work for a `log.txt` that has lines in the format:
     
     2013-04-04T13:15:00Z someuser: I wrote some text
 
-The syntax is XRegExp and uses named groups. See [the XRegExp readme](https://npmjs.org/package/xregexp) for more info
+The syntax is XRegExp and uses named groups. See 
+[the XRegExp readme](https://npmjs.org/package/xregexp) for more info
 
 Currently, supported named captures are:
 
@@ -207,13 +215,13 @@ Currently, supported named captures are:
 * hour 
 * minute
 * second
-* timestamp - unix timestamp in seconds, can be used instead of the date captures
-* timestampms - unix timestamp in miliseconds, can be used instead of both above.
+* timestamp - unix timestamp in seconds, used instead of the date captures
+* timestampms - unix timestamp in miliseconds, used instead of both above.
 * text - the text content
 
 Timestamp example:
 
-    cat log.txt | triplie config.json --feed --regex '(?<timestamp>\d+) (?<text>.+)
+    cat log.txt | triplie config.yaml --feed --regex '(?<timestamp>\d+) (?<text>.+)
 
 will match `log.txt` containing lines in the format:
 
@@ -222,7 +230,7 @@ will match `log.txt` containing lines in the format:
 All captures except text are optional - the time is optional and if left out
 the feeder will generate reasonable "fake" timestamps.
 
-    cat log.txt | triplie config.json --feed --regex '(?<text>.+)'
+    cat log.txt | triplie config.yaml --feed --regex '(?<text>.+)'
 
 
 # COMMANDS
@@ -238,7 +246,7 @@ List of triplie's commands (assuming "!" is the cmdchar)
 4. !set path value - set a config setting to the specified value. Examples
     
        !set ai.sleep.1 10 - Set the upper sleep limit to 10 seconds
-       !set ai.sleep [2,3] - Set both sleep limits. The value must not contain spaces.
+       !set ai.sleep [2,3] - Set both sleep limits. Value musn't contain space.
 
 5. !get path - get the config value at the specified path
 
