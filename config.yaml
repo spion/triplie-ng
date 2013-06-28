@@ -35,7 +35,7 @@ admins:
 # You don't have to modify these, but they're there if you need them
 
 # command prefix character
-cmdchar: '>',
+cmdchar: '>'
 
 # virtual host (IP address) to use. if left null the default will be used.
 vhost: null
