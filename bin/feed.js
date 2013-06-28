@@ -5,7 +5,7 @@ var dbinit = require('../lib/db'),
     split = require('split'),
     learner = require('../lib/learner'),
     XRegExp = require('xregexp').XRegExp,
-    loadConfig = require('../lib/load-config'),
+    Config = require('../lib/config'),
     async = require('async');
 
 function createTimestamp(spec, defaults) {
@@ -19,11 +19,12 @@ function createTimestamp(spec, defaults) {
     spec.hour = spec.hour || defauls.getHours();
     spec.minute = spec.minute || defaults.getMinutes();
     spec.second = spec.second || defaults.getSeconds();
-    return new Date(spec.year, spec.month - 1, spec.day, spec.hour, spec.minute, spec.second).getTime();
+    return new Date(spec.year, spec.month - 1, spec.day, spec.hour, 
+                    spec.minute, spec.second).getTime();
 }
 
 
-var config = loadConfig(args);
+var config = Config.load(args);
 
 dbinit({
     mode: 'feed',
@@ -45,7 +46,8 @@ dbinit({
                 process.stdout.write(' ');
             if (lines % 1000 === 0) {
                 var spd = 1000 / ((Date.now() - last) / 1000);
-                console.log((lines/1000).toFixed(0)+'K', 'at', spd.toFixed(1), 'l/s');
+                console.log((lines/1000).toFixed(0)+'K', 'at', 
+                            spd.toFixed(1), 'l/s');
                 last = Date.now();
             }
             cb(err);

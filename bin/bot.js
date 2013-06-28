@@ -10,9 +10,9 @@ var EventEmitter = require('events').EventEmitter;
 var fs = require('fs');
 var path = require('path');
 
-var loadConfig = require('../lib/load-config.js');
+var Config = require('../lib/config.js');
 
-var configFile = path.resolve(process.cwd(), args._[0] || 'config.json');
+var configFile = path.resolve(process.cwd(), args._[0] || 'config.yaml');
 
 
 function connection(config) {
@@ -64,7 +64,7 @@ function child(irc) {
 
     var ipcadr = '/tmp/triplie-' + process.pid + '.sock';
 
-    var config = loadConfig(args),
+    var config = Config.load(args),
         self = {},
         socket = null,
         ipc = net.createServer(function(cli) {
@@ -102,26 +102,22 @@ function child(irc) {
         } catch (e) { }
         child.on('message', function(msg, handler) {
             if (msg.reload) reload();
-            if (msg.save) saveConfig(msg.save);
+            if (msg.save) Config.save(configFile, JSON.parse(msg.save));
         });
         child.send({init: true, config: config, ipc: ipcadr });
         return child;
     };
 
     function reload() {
-        try { config = loadConfig(args); } catch (e) {}
+        try { config = Config.load(args); } catch (e) {}
         irc.config = config;
         try { child.kill('SIGKILL'); } 
         catch (e) {}
         child = run(config);
     }
 
-    function saveConfig(data) {
-        fs.writeFile(configFile, data)
-    }
-
 }
 
 
-child(connection(loadConfig(args)));
+child(connection(Config.load(args)));
 
