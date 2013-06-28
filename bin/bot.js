@@ -50,7 +50,8 @@ function connection(config) {
         });
         socket.setTimeout(90 * 1000);
         socket.on('close', function(err) {
-            console.log("Connection closed, trying to reconnect");
+            console.log("Connection closed with error", err);
+            console.log("trying to reconnect...");
             setTimeout(connect, irc.config.reconnectDelay * 1000 || 15000);
         });        
     };
