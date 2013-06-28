@@ -1,7 +1,8 @@
 var learner = require('../lib/learner'),
-    replyer = require('../lib/replyer');
+    replyer = require('../lib/replyer'),
     Partake = require('../lib/partake'),
-    aiopts  = require('../lib/pipeline/options.js');
+    aiopts  = require('../lib/pipeline/options.js'),
+    context = require('../lib/context');
 
 module.exports = function(irc) {
     var db = irc.use(require('./db'));
@@ -13,8 +14,14 @@ module.exports = function(irc) {
 
     db(dbready);
     function dbready(err, db) {   
+
+
         irc.on('privmsg', learnOrReply);
+
+        var ctx = context(aiopts.defaults(irc.config.ai).context.maxsize);
         
+
+
         function learnOrReply(e) {
             if (e.text[0] == irc.config.cmdchar) return;
             var learn = learner(db, irc.config.ai);
@@ -30,11 +37,14 @@ module.exports = function(irc) {
                     partake.decide(e.target, aiconf.partake.probability, 
                     aiconf.partake.traffic);
 
-            var wasAddressed = ~e.text.trim().toLowerCase().indexOf(irc.config.info.nick.toLowerCase()),
+            var wasAddressed = ~e.text.trim().toLowerCase()
+                    .indexOf(irc.config.info.nick.toLowerCase()),
                 onChannel = e.target[0] == '#'
             
             var replyToMsg = !onChannel || shouldPartake || wasAddressed;
 
+
+            ctx.push(e.user.nick, text, Date.now());
 
             if (!replyToMsg) 
                 return learn(text, Date.now());
@@ -52,14 +62,15 @@ module.exports = function(irc) {
             var sendto = onChannel ? e.target : e.user.nick;
             var prefix = wasAddressed && onChannel ? e.user.nick + ', ' : '';
 
-            setTimeout(reply.bind(reply, text, function(err, response) {
+            setTimeout(reply.bind(reply, ctx.get(e.user.nick), function(err, response) {
                 response =  response || irc.config.default_response;
                 if (response) {
                     if (response.match(/^.action\s+/))
                         irc.send('privmsg', sendto, response);
                     else 
                         irc.send('privmsg', sendto, prefix + response);
-                    console.log(sendto, prefix + response)
+                    ctx.push(e.user.nick, prefix + response, Date.now());
+                    console.log(sendto, prefix + response);
                 }
                 learn(text, Date.now());
             }), timeout);

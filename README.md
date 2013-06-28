@@ -1,21 +1,26 @@
 # INTRODUCTION
 
 
-Triplie is an AI bot based on 2nd up to 5th order Markov model. It uses an SQLite database for storage.
+Triplie is an AI bot based on 2nd up to 5th order Markov model. It uses an 
+SQLite database for storage.
 
 Triplie learns by creating
 
 1. a dictionary of words 
-2. a graph representing valid 5-grams (consecutive groups of 5 words) encountered in the text
-3. a graph of associations between words from sentences formed according to the Hebbian rule
+2. a graph representing valid 5-grams (consecutive groups of 5 words) 
+   encountered in the text
+3. a graph of associations between words from sentences formed according to the
+   Hebbian rule
 
-To respond to a user, triplie extracts keywords from the user's text, finds their most appropriate 
-associated keywords in the Hebbian association network, and generates replies that contain the 
-associated keywords using multiple breadth-first-search Markov chains algorithm.
+To respond to a user, triplie extracts keywords from the user's text, finds 
+their most appropriate associated keywords in the Hebbian association network, 
+and generates replies that contain the associated keywords using multiple 
+breadth-first-search Markov chains algorithm.
 
 For more information on installing and configuring read below
 
-You can join the project's IRC channel too: #triplie on irc.freenode.net
+You can join the project's IRC channel too: 
+[#triplie on irc.freenode.net](irc://irc.freenode.net/#triplie)
 
 
 # Install
@@ -35,7 +40,6 @@ Then from a terminal run:
 This will install the `triplie` command on your system.
 
 Configure the bot as explained below before running!
-
 
 # CONFIGURATION
 

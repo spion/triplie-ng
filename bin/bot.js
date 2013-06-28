@@ -92,7 +92,11 @@ function child(irc) {
     }); 
 
     function run(config) {
-        var child = cp.fork(__dirname + '/../lib/child.js');
+        var child = cp.spawn('node', [
+                             //'--prof', '--debug', '--prof_lazy', '--log',
+                             //'--expose-gc',
+                             __dirname + '/../lib/child.js'],
+                             {env: process.env, stdio: [null, null, null, 'ipc']});
         child.on('exit', function(c) {
             console.log("Child exit with status code", c);
             if (c) {

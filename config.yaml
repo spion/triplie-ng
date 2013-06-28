@@ -153,4 +153,6 @@ ai: # These may take some explaining
       # context half-dies every 150 seconds
     others: 0.25 
       # context by people other than the talker is 4 times less important.
+    maxsize: 10
+      # use at maximum 10 lines of previous context.
 
