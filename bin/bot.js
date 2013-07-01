@@ -49,9 +49,11 @@ function connection(config) {
             else irc.send('PING', new Date().getTime());
         });
         socket.setTimeout(90 * 1000);
+        socket.on('error', function(err) {
+            console.log("Connection error", err);
+        });
         socket.on('close', function(err) {
-            console.log("Connection closed with error", err);
-            console.log("trying to reconnect...");
+            console.log("Connection closed, trying to reconnect...");
             setTimeout(connect, irc.config.reconnectDelay * 1000 || 15000);
         });        
     };
