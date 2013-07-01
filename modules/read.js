@@ -11,8 +11,11 @@ function readArticle(url, learn, db, done) {
     console.log("Reading", url);
     request(url, function(err, r, body) {
         if (err) return irc.send('privmsg', sendto, 'error:' + err.toString());
-        var $ = cheerio.load(body.toLowerCase());
-        var material = $('p,font,td').map(function() {
+        var $ = cheerio.load(body.toLowerCase().replace(/(\r?\n)+/g,' '));
+        var elements = $('p,font,td');
+        if (!elements.length)
+            elements = $('body');
+        var material = elements.map(function() {
             return this.text() 
         }).reduce(function(acc, t) { 
             return acc.concat(t.split('. ')); 
@@ -20,15 +23,18 @@ function readArticle(url, learn, db, done) {
             return s.length > 0 && s.split(' ').length > 3;
         })
 
+        if (!material.length) {
+            material = body.toLowerCase().replace(/(\r?\n)+/g,' ')
+                .split(/.\s*/g);
+        }
+
         db.batch.begin();
-        async.parallel(material.map(function(line) {
-            return function(cb) { 
-                learn(line, cb); 
-            };
-        }), function(err) {
-            db.batch.end();
+        async.map(material, function(line, cb) {
+            learn(line, Date.now(), cb);
+        }, function(err) {
             done(err, material);
         });
+        db.batch.end();
     });
 }
 
@@ -75,8 +81,11 @@ module.exports = function(irc) {
         admin.read = function(e, url) {
             var sendto = e.target[0] == '#' ? e.target : e.user.nick;
             readArticle(url, learn, db, function(err, material) {
-                if (err) return irc.send('privmsg', sendto, 'error:' + err.toString());
-                irc.send('privmsg', sendto, 'Done, read ' + material.length + ' lines.');
+                console.log('read', err, sendto);
+                if (err) return irc.send('privmsg', sendto, 
+                                         'error:' + err.toString());
+                irc.send('privmsg', sendto, 
+                         'Done, read ' + material.length + ' lines.');
             });
 
         };
