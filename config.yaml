@@ -45,12 +45,16 @@ vhost: null
 # will be lost after shutdown
 db: triplie.db
 
-# modules to load (dont modify this)
+# modules to load (dont remove the first 3 modules)
 modules: 
   - triplie # core module
   - admin   # administrator commands (reload join part)
   - read    # URL reading commands (tell triplie to read all text from an URL)
-
+  # You may want to add your own modules here. Save a file called mymodule.js
+  # in the same directory with your config file, then uncomment the next line:
+  # - './mymodule.js'
+  # See https://github.com/spion/ircee for more info on how to write ircee
+  # modules.
 
 #------------------------------------------------------------------------------
 # AI settings
