@@ -10,8 +10,8 @@
     "doc": "doc"
   },
   "dependencies": {
-    "async": "~0.2.8",
-    "async-bfs": "~0.1.7",
+    "async": "~0.2.9",
+    "async-bfs": "~0.1.9",
     "cheerio": "~0.10.8",
     "ircee": "~0.2.0",
     "natural": "~0.1.21",
