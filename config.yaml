@@ -50,6 +50,8 @@ modules:
   - triplie # core module
   - admin   # administrator commands (reload join part)
   - read    # URL reading commands (tell triplie to read all text from an URL)
+  # Comment out this module if you don't want logging
+  - log
   # You may want to add your own modules here. Save a file called mymodule.js
   # in the same directory with your config file, then uncomment the next line:
   # - './mymodule.js'
