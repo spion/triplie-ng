@@ -155,6 +155,7 @@ ai: # These may take some explaining
       # context half-dies every 150 seconds
     others: 0.25 
       # context by people other than the talker is 4 times less important.
-    maxsize: 10
-      # use at maximum 10 lines of previous context.
+    maxsize: 1
+      # use at maximum 1 lines of previous context. Increasing this currently
+      # results with serious memory usage, so don't do it.
 
