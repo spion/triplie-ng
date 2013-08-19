@@ -17,8 +17,8 @@ channels:
 
 # bot nickname, username and real name
 info: 
-  nick: triplie-ng,
-  user: triplie,
+  nick: triplie-ng
+  user: triplie
   name: triplie, the next generation
 
 # List of admin nick!user@host expressions
