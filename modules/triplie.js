@@ -4,6 +4,14 @@ var learner = require('../lib/learner'),
     aiopts  = require('../lib/pipeline/options.js'),
     context = require('../lib/context');
 
+
+function enoughLove(amount) {
+    var love = Math.random() * 100,
+        enough = love < amount;
+    //console.log("got love =", amount,"; need =", love.toFixed(0));
+    return enough;
+}
+
 module.exports = function(irc) {
     var db = irc.use(require('./db'));
 
@@ -41,8 +49,12 @@ module.exports = function(irc) {
                     .indexOf(irc.config.info.nick.toLowerCase()),
                 onChannel = e.target[0] == '#'
             
-            var replyToMsg = !onChannel || shouldPartake || wasAddressed;
+            var love = irc.config.ai.love.for[e.user.nick];
+            if (null == love) love = irc.config.ai.love.default;
+            if (null == love) love = 100;
 
+            var replyToMsg = (!onChannel || shouldPartake || wasAddressed)
+                && enoughLove(love);
 
             ctx.push(e.user.nick, text, Date.now());
 

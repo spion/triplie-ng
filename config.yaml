@@ -120,6 +120,15 @@ ai: # These may take some explaining
     # 1 is enough, 50 that 5 are needed, 1 that 10 are needed and 0 that 
     # creativity is off.
 
+  love: # controls chance of replying to people
+    # This is simply the probability that triplie will respond to people.
+    # You can set the default and also set different settings for other
+    # nicknames to 0
+    default: 100 # between 1 and 100
+    for:
+      otherBot: 0 # also between 1 and 100
+
+
   ngram: # markov chain engine control
 
     length: 4 
