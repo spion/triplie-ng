@@ -56,16 +56,21 @@ function connection(config) {
             console.log("Connection closed, trying to reconnect...");
             setTimeout(connect, irc.config.reconnectDelay * 1000 || 15000);
         });        
-    };
+    }
     irc.on('pong', function() { --pings; });
 
     connect();
     return irc;
 }
 
-function child(irc) {    
 
-    var ipcadr = '/tmp/triplie-' + process.pid + '.sock';
+
+function child(irc) {    
+    
+    var ipcadr = {path: '/tmp/triplie-' + process.pid + '.sock'};
+    if (process.platform.match(/^win/))
+        ipcadr = {port: 0};
+
 
     var config = Config.load(args),
         self = {},
@@ -76,9 +81,19 @@ function child(irc) {
             cli.pipe(irc.outstream, {end: false});
         }), child;
 
-    child = run(config);
 
-    ipc.listen(ipcadr);
+    var child;
+
+    if (ipcadr.path)
+        ipc.listen(ipcadr.path, listenComplete);
+    else {
+        ipc.listen(ipcadr.port, listenComplete); 
+    }
+
+    function listenComplete() {
+        ipcadr.port = ipc.address().port;
+        child = run(config);
+    }
 
     irc.on('connect', function() {        
         function childReady(k) {
@@ -113,7 +128,7 @@ function child(irc) {
         });
         child.send({init: true, config: config, ipc: ipcadr });
         return child;
-    };
+    }
 
     function reload() {
         try { config = Config.load(args); } catch (e) {}
