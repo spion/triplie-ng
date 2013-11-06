@@ -15,11 +15,13 @@ channels:
   - '#triplie'
   - '#triplie-ng'
 
-# bot nickname, username and real name
+# bot nickname, username, real name.
 info: 
   nick: triplie-ng
   user: triplie
   name: triplie, the next generation
+  # set the password to use (optional, uncomment to enable)
+  #pass: password
 
 # List of admin nick!user@host expressions
 admins: 

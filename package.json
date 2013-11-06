@@ -13,7 +13,7 @@
     "async": "~0.2.9",
     "async-bfs": "~0.1.9",
     "cheerio": "~0.10.8",
-    "ircee": "~0.2.0",
+    "ircee": "~0.2.2",
     "natural": "~0.1.21",
     "optimist": "~0.3.7",
     "request": "~2.14.0",
