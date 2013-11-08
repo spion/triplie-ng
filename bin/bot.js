@@ -79,6 +79,9 @@ function child(irc) {
             console.log("parent: child process connected");
             irc.instream.pipe(cli, {end: false});
             cli.pipe(irc.outstream, {end: false});
+            // Ignore client connection errors.
+            // TODO: check if this is safe.
+            cli.on('error', function() { });
         }), child;
 
 
