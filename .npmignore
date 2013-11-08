@@ -1,3 +1,6 @@
 .gitignore
 .idea
 triplie-ng.iml
+*.db
+*.log
+doc/*.pdf
