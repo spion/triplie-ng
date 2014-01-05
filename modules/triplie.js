@@ -32,6 +32,7 @@ module.exports = function(irc) {
 
         function learnOrReply(e) {
             if (e.text[0] == irc.config.cmdchar) return;
+            if (e.user.nick == irc.config.info.nick) return;
             var learn = learner(db, irc.config.ai);
             var text = e.text.trim();
             if (text.indexOf(irc.config.info.nick) == 0)
