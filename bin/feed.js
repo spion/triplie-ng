@@ -28,7 +28,7 @@ var config = Config.load(args);
 
 dbinit({
     mode: 'feed',
-    name: 'triplie.db'
+    name: config.db || 'triplie.db'
 }, function(err, db) {
 
     var lines = 0;
