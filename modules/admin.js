@@ -2,16 +2,16 @@ var fs = require('fs');
 
 module.exports = function(irc) {
     var db = irc.use(require('./db'));
-    
+
     var admins = irc.config.admins || [];
 
     var isAdmin = exports.isAdmin = function isAdmin(address) {
-        var f = admins.filter(function(a) { 
+        var f = admins.filter(function(a) {
             return address.match(a);
         });
         return f.length;
     };
-    
+
     var cmdchar = irc.config.chmdchar || '>'
 
     irc.on('privmsg', function(m) {
@@ -30,7 +30,7 @@ module.exports = function(irc) {
             }
             var args = which.slice(1);
             args.unshift(m);
-            
+
 
             cmds[which[0]].apply(responder, args);
         }
@@ -65,7 +65,7 @@ module.exports = function(irc) {
             saveConfig();;
         }
         irc.send('part', chan);
-    };  
+    };
 
     cmds.db = function(m, subcmd) {
         var self = this;
@@ -84,19 +84,19 @@ module.exports = function(irc) {
     cmds.get = function(m, jpath) {
         path = jpath.split(/[\[\]\.]+/g);
         var c = irc.config;
-        while (c && path.length) 
+        while (c && path.length)
             c = c[path.shift()];
         this.respond(JSON.stringify(c));
     };
     cmds.set = function(m, jpath, val) {
         path = jpath.split(/[\[\]\.]+/g);
         var c = irc.config;
-        while (c && path.length > 1) 
+        while (c && path.length > 1)
             c = c[path.shift()];
         var last = path.shift();
         c[last] = JSON.parse(val);
         saveConfig();
-        this.respond(last + ' = ' + JSON.stringify(c[last]));      
+        this.respond(last + ' = ' + JSON.stringify(c[last]));
                  //+ " in " + JSON.stringify(c))
     }
 

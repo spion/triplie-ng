@@ -11,12 +11,12 @@ server: irc.freenode.net
 port: 6667
 
 # channels to join after connecting
-channels: 
+channels:
   - '#triplie'
   - '#triplie-ng'
 
 # bot nickname, username, real name.
-info: 
+info:
   nick: triplie-ng
   user: triplie
   name: triplie, the next generation
@@ -24,7 +24,7 @@ info:
   #pass: password
 
 # List of admin nick!user@host expressions
-admins: 
+admins:
   - '.+@unaffiliated/spion'
 
 # At this point you are done, but if you want to configure aditional options,
@@ -48,12 +48,12 @@ cmdchar: '>'
 vhost: null
 
 # path to the database file, relative to the config file
-# you can also specify ":memory:" to use an in-memory database but the data 
+# you can also specify ":memory:" to use an in-memory database but the data
 # will be lost after shutdown
 db: triplie.db
 
 # modules to load (dont remove the first 3 modules)
-modules: 
+modules:
   - triplie # core module
   - admin   # administrator commands (reload join part)
   - read    # URL reading commands (tell triplie to read all text from an URL)
@@ -70,26 +70,26 @@ modules:
 #------------------------------------------------------------------------------
 
 ai: # These may take some explaining
-  
+
   associations: # Hebbian association network configuration
-    
-    halflife: 10,     
-      # The association will lose half of its value `halflife` days after it 
-      # is last encountered in a sentence. Making this value lower will make 
-      # the bot focus on recent events, while making it longer will cause it 
+
+    halflife: 10,
+      # The association will lose half of its value `halflife` days after it
+      # is last encountered in a sentence. Making this value lower will make
+      # the bot focus on recent events, while making it longer will cause it
       # to recall older things more frequently
- 
-    limit: 250 
-      # Only take the best N associations for every sentence. 
+
+    limit: 250
+      # Only take the best N associations for every sentence.
       # Making this value larger will cause the bot to explore broader
       # context while mamking it smaller will cause it to be more focused.
-  
-  similars: # how the AI determines similar words 
+
+  similars: # how the AI determines similar words
 
     algorithm: porter
-      # What algorithm to use to determine similar words. The `"porter"` 
-      # stemmer is recommended for English. Don't use `"levenshtein"` as its 
-      # presently extremely slow - for unsupported languages its better to use 
+      # What algorithm to use to determine similar words. The `"porter"`
+      # stemmer is recommended for English. Don't use `"levenshtein"` as its
+      # presently extremely slow - for unsupported languages its better to use
       # `"none"`
 
     language: en # stemmer language (en = english, ru = russian, es = spanish)
@@ -99,32 +99,32 @@ ai: # These may take some explaining
   keywords: # control how keywords are picked
 
     threshold: 150
-      # How many times less frequent should a word be than the most frequent 
-      # word in order for triplie to consider it "interesting". Helps remove 
+      # How many times less frequent should a word be than the most frequent
+      # word in order for triplie to consider it "interesting". Helps remove
       # stop-words from the input text such as "a", "of", "and" etc.
 
     limit: 30
-      # Consider at most this many associated keywords when trying to form the 
-      # reply. The best associated keywords are picked. Increasing this too 
-      # much will cause triplie to say more irrelevant things, decreasing it 
+      # Consider at most this many associated keywords when trying to form the
+      # reply. The best associated keywords are picked. Increasing this too
+      # much will cause triplie to say more irrelevant things, decreasing it
       # too much will cause it to only say obvious things (at least in theory)
 
   generalization: 50 # between 1 and 100
-    # Controls triplie's tendency for generalization. In theory, making this 
-    # number closer to 100 will cause triplie to pick more general, typical 
-    # topics while lowering it will cause it to pick less typical topics. Best 
+    # Controls triplie's tendency for generalization. In theory, making this
+    # number closer to 100 will cause triplie to pick more general, typical
+    # topics while lowering it will cause it to pick less typical topics. Best
     # left at 50
 
   creativity: 75 # between 1 and 100
-    # Controls creative use of language. If increased to 100, triplie will 
-    # often use words in contexts where they were never used before. When 
+    # Controls creative use of language. If increased to 100, triplie will
+    # often use words in contexts where they were never used before. When
     # reduced, triplie will be more cautious when recognizing patterns. Setting
-    # it to 0 will cause triplie to never recognize patterns of word usage. 
-    # For example, if triplie notices that the words "dog" and "cat" are used 
-    # in "many" common n-grams it may use the n-grams of "dog" in addition to 
-    # the n-grams of "cat" when forming a sentence that needs to contain the 
+    # it to 0 will cause triplie to never recognize patterns of word usage.
+    # For example, if triplie notices that the words "dog" and "cat" are used
+    # in "many" common n-grams it may use the n-grams of "dog" in addition to
+    # the n-grams of "cat" when forming a sentence that needs to contain the
     # keyword "cat" `creativity` determines how many is "many". 100 means that
-    # 1 is enough, 50 that 5 are needed, 1 that 10 are needed and 0 that 
+    # 1 is enough, 50 that 5 are needed, 1 that 10 are needed and 0 that
     # creativity is off.
 
   love: # controls chance of replying to people
@@ -138,20 +138,20 @@ ai: # These may take some explaining
 
   ngram: # markov chain engine control
 
-    length: 4 
+    length: 4
       # The length of chains to use. Longer length results with more
       # coherent sentences. Shorter length results with more sentences when
       # there is less training data. Must be <= 5. Recommended value 4.
- 
+
     depth: 8
       # When the algorithm is searching for the next keyword, limit the
       # search depth in the n-gram graph to this number. Increasing this number
-      # results with exponential increase in the memory and time needed. 
-      # Besides, too big of a value will result in low keyword density - the 
+      # results with exponential increase in the memory and time needed.
+      # Besides, too big of a value will result in low keyword density - the
       # number of words between two keywords can go up to `depth`
-      
+
   sleep: [2, 5]
-    # Causes the bot to sleep between 2 and 5 seconds before answering. Makes 
+    # Causes the bot to sleep between 2 and 5 seconds before answering. Makes
     # it look more human.
 
   answer: # controls answer length
@@ -161,15 +161,15 @@ ai: # These may take some explaining
   partake: # control unsolicited reply (makes the bot reply even though its
            # nickname is not in the message
     probability: 0 # 0 to 100, 0 is no replies
-    traffic: 1 
-      # the highest amount of total channel messages during the past 
+    traffic: 1
+      # the highest amount of total channel messages during the past
       # minute that allow an unsolicited reply. 0 is no limit.
- 
+
   context: # controls how much previous context the bot takes when considering
            # a reply
-    halflife: 150 
+    halflife: 150
       # context half-dies every 150 seconds
-    others: 0.25 
+    others: 0.25
       # context by people other than the talker is 4 times less important.
     maxsize: 1
       # use at maximum 1 lines of previous context. Increasing this currently

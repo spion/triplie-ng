@@ -9,7 +9,7 @@ module.exports = function(irc) {
         name: irc.config.db,
         configFile: irc.config.__file
     }, function(err, d) {
-        if (err) 
+        if (err)
             return dbready.emit('ready', err);
         db = d;
         dbready.emit('ready', null, d);

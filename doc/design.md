@@ -1,6 +1,6 @@
 # Technology
 
-node.js - because JS is dynamic, has first class functions and 
+node.js - because JS is dynamic, has first class functions and
 closures and node has a huge ecosystem
 
 # Interfaces
@@ -26,7 +26,7 @@ Initializes the storage with the specified options.
 to query the storage or to feed massive amounts of data to it.
 
 
-#### close 
+#### close
 
 ```
 close(function(err))
@@ -36,7 +36,7 @@ Tell the database we are done using it.
 
 ### Batch operations (batch)
 
-Batch operations module. Queries that request information instead 
+Batch operations module. Queries that request information instead
 of doing updates or insert must not be run inside a batch.
 
 #### begin
@@ -51,7 +51,7 @@ This can be safely ignored by the storage layer if its not required.
 #### end
 
 ```js
-end(function(err) 
+end(function(err)
 ```
 
 Tell the storage that the batch has ended.
@@ -64,7 +64,7 @@ Tell the storage that the batch has ended.
 all(function(err, [words]))
 ```
 
-Loads the entire dictionary array. 
+Loads the entire dictionary array.
 Word objects look like this:
 
 ```js
