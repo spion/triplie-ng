@@ -23,8 +23,8 @@ function connection(config) {
     irc.use(require('ircee/core'));
 
     var instream = through(),
-        outstream = through();        
- 
+        outstream = through();
+
     irc.instream = instream;
     irc.outstream = outstream;
 
@@ -32,12 +32,12 @@ function connection(config) {
     function connect() {
         pings = 0;
         var connectOpts = {
-            port: config.port, 
-            host: config.server,            
+            port: config.port,
+            host: config.server,
         };
         if (config.vhost)
             connectOpts.localAddress = config.vhost;
-        var socket = net.connect(connectOpts);                                 
+        var socket = net.connect(connectOpts);
         socket.pipe(instream, {end: false});
         outstream.pipe(socket, {end: false});
         socket.pipe(irc, {end: false}).pipe(socket);
@@ -55,7 +55,7 @@ function connection(config) {
         socket.on('close', function(err) {
             console.log("Connection closed, trying to reconnect...");
             setTimeout(connect, irc.config.reconnectDelay * 1000 || 15000);
-        });        
+        });
     }
     irc.on('pong', function() { --pings; });
 
@@ -65,8 +65,8 @@ function connection(config) {
 
 
 
-function child(irc) {    
-    
+function child(irc) {
+
     var ipcadr = {path: '/tmp/triplie-' + process.pid + '.sock'};
     if (process.platform.match(/^win/))
         ipcadr = {port: 0};
@@ -90,7 +90,7 @@ function child(irc) {
     if (ipcadr.path)
         ipc.listen(ipcadr.path, listenComplete);
     else {
-        ipc.listen(ipcadr.port, listenComplete); 
+        ipc.listen(ipcadr.port, listenComplete);
     }
 
     function listenComplete() {
@@ -98,16 +98,16 @@ function child(irc) {
         child = run(config);
     }
 
-    irc.on('connect', function() {        
+    irc.on('connect', function() {
         function childReady(k) {
-            if (child) 
+            if (child)
                 try { return child.send({connection: true});
                 } catch (e) {}
-            if (k < 10) 
+            if (k < 10)
                 setTimeout(childReady.bind(null, k+1), 1000); // try again in 1s
         }
         childReady(0);
-    }); 
+    });
 
     function run(config) {
         var child = cp.spawn('node', [
@@ -123,7 +123,7 @@ function child(irc) {
         });
         try {
             child.stdout.pipe(process.stdout);
-            child.stderr.pipe(process.stderr);        
+            child.stderr.pipe(process.stderr);
         } catch (e) { }
         child.on('message', function(msg, handler) {
             if (msg.reload) reload();
@@ -136,7 +136,7 @@ function child(irc) {
     function reload() {
         try { config = Config.load(args); } catch (e) {}
         irc.config = config;
-        try { child.kill('SIGKILL'); } 
+        try { child.kill('SIGKILL'); }
         catch (e) {}
         child = run(config);
     }

@@ -9,7 +9,7 @@ var dbinit = require('../lib/db'),
     async = require('async');
 
 function createTimestamp(spec, defaults) {
-    if (spec.timestampms) 
+    if (spec.timestampms)
         return spec.timestampms;
     else if (spec.timestamp)
         return spec.timestamp * 1000;
@@ -19,7 +19,7 @@ function createTimestamp(spec, defaults) {
     spec.hour = spec.hour || defauls.getHours();
     spec.minute = spec.minute || defaults.getMinutes();
     spec.second = spec.second || defaults.getSeconds();
-    return new Date(spec.year, spec.month - 1, spec.day, spec.hour, 
+    return new Date(spec.year, spec.month - 1, spec.day, spec.hour,
                     spec.minute, spec.second).getTime();
 }
 
@@ -46,7 +46,7 @@ dbinit({
                 process.stdout.write(' ');
             if (lines % 1000 === 0) {
                 var spd = 1000 / ((Date.now() - last) / 1000);
-                console.log((lines/1000).toFixed(0)+'K', 'at', 
+                console.log((lines/1000).toFixed(0)+'K', 'at',
                             spd.toFixed(1), 'l/s');
                 last = Date.now();
             }
@@ -56,18 +56,18 @@ dbinit({
 
     var firstLine = true;
     var today = new Date();
-    var reg = new XRegExp(args.regex); 
+    var reg = new XRegExp(args.regex);
     process.stdin.pipe(split()).on('data', function(line) {
         var m = XRegExp.exec(line, reg);
         var ts = null;
         if (!m) return;
-        if (m.year || m.month || m.day || m.hour || m.minute 
+        if (m.year || m.month || m.day || m.hour || m.minute
             || m.second || m.timestamp || m.timestampms)
             ts = createTimestamp(m, today);
-        if (firstLine) { 
-            console.log('First line is', m && m.text); 
+        if (firstLine) {
+            console.log('First line is', m && m.text);
             console.log('Happening at', new Date(ts));
-            firstLine = false; 
+            firstLine = false;
         }
         if (m) learnQueue.push({text: m.text, timestamp: ts});
     });

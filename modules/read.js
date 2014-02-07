@@ -16,9 +16,9 @@ function readArticle(url, learn, db, done) {
         if (!elements.length)
             elements = $('body');
         var material = elements.map(function() {
-            return this.text() 
-        }).reduce(function(acc, t) { 
-            return acc.concat(t.split('. ')); 
+            return this.text()
+        }).reduce(function(acc, t) {
+            return acc.concat(t.split('. '));
         }, []).filter(function(s) {
             return s.length > 0 && s.split(' ').length > 3;
         })
@@ -39,35 +39,35 @@ function readArticle(url, learn, db, done) {
 }
 
 module.exports = function(irc) {
-    var db = irc.use(require('./db')),    
+    var db = irc.use(require('./db')),
         admin = irc.use(require('./admin'));
 
     db(function(err, db) {
         var cfg = JSON.parse(JSON.stringify(irc.config.ai));
         cfg.inBatch = true;
-        var learn = learner(db, cfg); 
+        var learn = learner(db, cfg);
         admin.readall = function(e, url) {
             var sendto = e.target[0] == '#' ? e.target : e.user.nick;
             var base;
             if (url[url.length - 1] != '/')
                 base = path.dirname(url) + '/';
-            else 
+            else
                 base = url;
             request(url, function(err, r, body) {
                 var $l = cheerio.load(body);
-                var links = $l('a').map(function() { 
-                    var l = this.attr('href'); 
+                var links = $l('a').map(function() {
+                    var l = this.attr('href');
                     if (!l.match(/^https?:/))
                         if (l[0] == '/')
                             l = base.replace(URL.parse(base).path, l);
-                        else 
+                        else
                             l = base + l;
                      return l;
- 
+
                 });
                 console.log(links);
 
-                var reads = links.map(function(l) { 
+                var reads = links.map(function(l) {
                    return readArticle.bind(readArticle, l, learn, db);
                 });
                 async.series(reads, function(err, materials) {
@@ -77,14 +77,14 @@ module.exports = function(irc) {
 
                 });
             });
-        };       
+        };
         admin.read = function(e, url) {
             var sendto = e.target[0] == '#' ? e.target : e.user.nick;
             readArticle(url, learn, db, function(err, material) {
                 console.log('read', err, sendto);
-                if (err) return irc.send('privmsg', sendto, 
+                if (err) return irc.send('privmsg', sendto,
                                          'error:' + err.toString());
-                irc.send('privmsg', sendto, 
+                irc.send('privmsg', sendto,
                          'Done, read ' + material.length + ' lines.');
             });
 
