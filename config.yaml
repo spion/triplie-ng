@@ -37,8 +37,9 @@ admins:
 # You don't have to modify these, but they're there if you need them
 
 # ignored users
-ignored_users:
-  - '.+@unaffiliated/something'
+ignore:
+  users:
+    - '.+@unaffiliated/something'
 
 # command prefix character
 cmdchar: '>'
