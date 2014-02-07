@@ -20,7 +20,8 @@ module.exports = function(irc) {
     var partake = Partake();
 
     var isIgnoredUser = module.exports.isIgnoredUser = function(address) {
-        var ignoredUsers = irc.config.ignored_users || [];
+	var _ref;
+        var ignoredUsers = ((_ref = irc.config.ignore) != null ? _ref['users'] : void 0) || [];
         var f = ignoredUsers.filter(function (a) {
             return address.match(a);
         });
