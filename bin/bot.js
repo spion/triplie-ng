@@ -42,7 +42,7 @@ function connection(config) {
         outstream.pipe(socket, {end: false});
         socket.pipe(irc, {end: false}).pipe(socket);
         socket.on('error', function(err) {
-            console.log("socket error:", err);
+            console.log("socket error:", err, connectOpts);
         });
         socket.on('timeout', function() {
             if (++pings > 1) socket.destroy();
