@@ -89,8 +89,11 @@ module.exports = function(irc) {
             setTimeout(reply.bind(reply, ctx.get(e.user.nick), function(err, response) {
                 response =  response || irc.config.default_response;
                 if (response) {
-                    if (response.match(/^.action\s+/))
+                    if (response.match(/^.action\s+/)) {
+                        if (response.charCodeAt(response.length - 1) !== 1)
+                            response += String.fromCharCode(1);
                         irc.send('privmsg', sendto, response);
+                    }
                     else
                         irc.send('privmsg', sendto, prefix + response);
                     ctx.push(e.user.nick, prefix + response, Date.now());
