@@ -12,7 +12,7 @@ module.exports = function(irc) {
         return f.length;
     };
 
-    var cmdchar = irc.config.chmdchar || '>'
+    var cmdchar = irc.config.cmdchar || '>'
 
     irc.on('privmsg', function(m) {
         if (m.text.length && m.text[0] == cmdchar && isAdmin(m.source)) {
