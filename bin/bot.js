@@ -116,10 +116,8 @@ function child(irc) {
                              __dirname + '/../lib/child.js'],
                              {env: process.env, stdio: [null, null, null, 'ipc']});
         child.on('exit', function(c) {
-            console.log("Child exit with status code", c);
-            if (c) {
-                setTimeout(reload, 3000);
-            }
+            console.log("Child exit with status code", c, ", reloading");
+            setTimeout(reload, 3000);
         });
         try {
             child.stdout.pipe(process.stdout);
