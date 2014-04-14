@@ -65,7 +65,7 @@ function connection(config) {
 
 
 
-function child(irc) {
+function runChild(irc) {
 
     var ipcadr = {path: '/tmp/triplie-' + process.pid + '.sock'};
     if (process.platform.match(/^win/))
@@ -117,7 +117,7 @@ function child(irc) {
                              {env: process.env, stdio: [null, null, null, 'ipc']});
         child.on('exit', function(c) {
             console.log("Child exit with status code", c, ", reloading");
-            setTimeout(reload, 3000);
+            setTimeout(load, c ? 3000 : 1);
         });
         try {
             child.stdout.pipe(process.stdout);
@@ -131,16 +131,19 @@ function child(irc) {
         return child;
     }
 
-    function reload() {
+    function load() {
         try { config = Config.load(args); } catch (e) {}
         irc.config = config;
+        child = run(config);
+    }
+    function reload() {
         try { child.kill('SIGKILL'); }
         catch (e) {}
-        child = run(config);
+
     }
 
 }
 
 
-child(connection(Config.load(args)));
+runChild(connection(Config.load(args)));
 
