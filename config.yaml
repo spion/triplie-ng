@@ -138,10 +138,11 @@ ai: # These may take some explaining
 
   ngram: # markov chain engine control
 
-    length: 4
+    length: 3
       # The length of chains to use. Longer length results with more
       # coherent sentences. Shorter length results with more sentences when
       # there is less training data. Must be <= 5. Recommended value 4.
+      # Should stay at 3 for a while until the database gets large enough
 
     depth: 8
       # When the algorithm is searching for the next keyword, limit the
