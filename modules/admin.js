@@ -31,9 +31,9 @@ module.exports = function(irc) {
             var args = which.slice(1);
             args.unshift(m);
 
-	    if (which[0] && typeof(cmds[which[0]]) === 'function')
+            if (which[0] && typeof(cmds[which[0]]) === 'function')
 		cmds[which[0]].apply(responder, args);
-	    else
+            else
 		responder.respond('no such command: ' + which[0]);
         }
     });
