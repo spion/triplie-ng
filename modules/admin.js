@@ -7,7 +7,11 @@ module.exports = function(irc) {
 
     var isAdmin = exports.isAdmin = function isAdmin(address) {
         var f = admins.filter(function(a) {
-            return address.match(a);
+            try {
+                return address.match(a);
+            } catch (e) {
+                return false;
+            }
         });
         return f.length;
     };
@@ -64,7 +68,7 @@ module.exports = function(irc) {
         chan = chan || m.target;
         if (~irc.config.channels.indexOf(chan)) {
             irc.config.channels.splice(irc.config.channels.indexOf(chan), 1);
-            saveConfig();;
+            saveConfig();
         }
         irc.send('part', chan);
     };
@@ -84,14 +88,14 @@ module.exports = function(irc) {
     }
 
     cmds.get = function(m, jpath) {
-        path = jpath.split(/[\[\]\.]+/g);
+        var path = jpath.split(/[\[\]\.]+/g);
         var c = irc.config;
         while (c && path.length)
             c = c[path.shift()];
         this.respond(JSON.stringify(c));
     };
     cmds.set = function(m, jpath, val) {
-        path = jpath.split(/[\[\]\.]+/g);
+        var path = jpath.split(/[\[\]\.]+/g);
         var c = irc.config;
         while (c && path.length > 1)
             c = c[path.shift()];
@@ -99,7 +103,6 @@ module.exports = function(irc) {
         c[last] = JSON.parse(val);
         saveConfig();
         this.respond(last + ' = ' + JSON.stringify(c[last]));
-                 //+ " in " + JSON.stringify(c))
     }
 
     return cmds;
