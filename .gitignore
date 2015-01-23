@@ -2,6 +2,7 @@
 *#
 .#*
 papers
+tests
 node_modules
 .idea
 triplie-ng.iml

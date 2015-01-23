@@ -1,5 +1,7 @@
 .gitignore
 papers
+tests
+.projectile
 .idea
 triplie-ng.iml
 *.db
