@@ -21,7 +21,7 @@
     "request": "~2.14.0",
     "split": "~0.2.5",
     "sql": "~0.2.4",
-    "sqlite3": "2.x",
+    "sqlite3": "3.x",
     "through": "~2.2.7",
     "xregexp": "~2.0.0"
   },
