@@ -1,6 +1,6 @@
 {
   "name": "triplie",
-  "version": "0.3.36",
+  "version": "0.3.37",
   "description": "An IRC conversation simulator (chatbot) utilising Markov chains, Hebbian networks and information theory.",
   "main": "bin/main.js",
   "bin": {
