@@ -33,7 +33,7 @@ dbinit({
 
     var lines = 0;
 
-    var learn = learner(db, {inBatch: true});
+    var learn = learner(db, config.ai);
     db.batch.begin();
 
     var past = Date.now() - 30 * 24 * 3600 * 1000; // 30 days
