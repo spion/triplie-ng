@@ -1,5 +1,6 @@
 .gitignore
 papers
+bots
 tests
 .projectile
 .idea
