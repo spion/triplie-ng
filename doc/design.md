@@ -154,7 +154,7 @@ An association result is an object:
 
 ```js
 {id1, id2, count}
-```js
+```
 
 where id1 < id2
 
