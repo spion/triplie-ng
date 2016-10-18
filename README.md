@@ -1,5 +1,6 @@
 # INTRODUCTION
 
+[![Known Vulnerabilities](https://snyk.io/test/github/spion/triplie-ng/438b6c59abc04e77c1b371bd76b09be930b2368f/badge.svg)](https://snyk.io/test/github/spion/triplie-ng/438b6c59abc04e77c1b371bd76b09be930b2368f)
 
 Triplie is an AI bot based on 2nd up to 5th order Markov model. It uses an
 SQLite database for storage.
